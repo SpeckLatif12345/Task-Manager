@@ -1,6 +1,5 @@
 """ This file contains initial configuration for the app """
 
-from flask_sqlalchemy import SQLAlchemy
 from flask import Flask
 from sql_alchemy_initialize import db
 from config import Config

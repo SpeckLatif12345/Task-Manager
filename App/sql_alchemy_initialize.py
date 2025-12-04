@@ -1,6 +1,6 @@
 """ This file contains initialization  for SQLAlchemy """
 
-from flask_sqlalchemy import SQLAlchemy
+
 
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy.orm import DeclarativeBase
