@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="min-h-screen flex flex-col justify-center items-center">
+
+  <!-- Title -->
+  <h1 class="text-white text-3xl mt-10">
+    Task Manager
+  </h1>
+
+  <!-- Navigation Card -->
+  <div class="nav-container w-125 h-[70vh] m-auto bg-[#0C0712] rounded pt-5">
+
+    <div
+      class="h-full flex flex-col items-center
+             text-2xl tracking-wide text-[#2a15e0cc]
+             pt-10 space-y-10"
+    >
+
+      <!-- Home -->
+      <a href="/taskManager/home" class="hover:text-white">
+        <i class="large material-icons">dashboard</i>
+        Home
+      </a>
+
+      <!-- New Task -->
+      <a href="/taskManager/new_task" class="hover:text-white">
+        <i class="large material-icons">add_task</i>
+        New Task
+      </a>
+
+      <!-- Progress -->
+      <a href="/taskManager/progress" class="hover:text-white">
+        <i class="large material-icons">timeline</i>
+        Progress
+      </a>
+
+    </div>
+  </div>
+
+</div>
+
+{% endblock %}

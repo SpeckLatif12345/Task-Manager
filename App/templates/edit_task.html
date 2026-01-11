@@ -1,0 +1,92 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="min-h-screen flex flex-col justify-center items-center bg-black">
+    <h1 class="text-white text-3xl mb-6">Task Manager</h1>
+
+    <div class="w-full max-w-lg bg-[#0C0712] rounded-xl p-6 space-y-4">
+
+        <!-- Top Navigation -->
+        <div class="flex justify-between items-center mb-2">
+            <a href="/"
+               class="text-sm text-gray-400 hover:text-white transition">
+                ← Dashboard
+            </a>
+
+            <a href="/taskManager/home"
+               class="text-sm text-violet-400 hover:text-violet-300 transition">
+                View Tasks
+            </a>
+        </div>
+
+        <form class="space-y-3 text-white" method="post">
+            {{ form.hidden_tag() }}
+
+            <!-- Task Name -->
+            <div class="flex flex-col gap-1">
+                {{ form.task_name.label(class="text-sm text-gray-400") }}
+                {{ form.task_name(
+                class="px-4 py-2 bg-transparent border border-gray-600 rounded-lg
+                focus:outline-none focus:ring-2 focus:ring-violet-500"
+                ) }}
+                {% for error in form.task_name.errors %}
+                    <span class="text-red-400 text-xs">{{ error }}</span>
+                {% endfor %}
+            </div>
+
+            <!-- Task Description -->
+            <div class="flex flex-col gap-1">
+                {{ form.task_description.label(class="text-sm text-gray-400") }}
+                {{ form.task_description(
+                class="px-4 py-2 bg-transparent border border-gray-600 rounded-lg resize-none
+                focus:outline-none focus:ring-2 focus:ring-violet-500",
+                rows=4
+                ) }}
+                {% for error in form.task_description.errors %}
+                    <span class="text-red-400 text-xs">{{ error }}</span>
+                {% endfor %}
+            </div>
+
+            <!-- Dates -->
+            <div class="grid grid-cols-2 gap-4">
+                <div class="flex flex-col gap-1">
+                    {{ form.start_date.label(class="text-sm text-gray-400") }}
+                    {{ form.start_date(
+                    class="px-4 py-2 bg-transparent border border-gray-600 rounded-lg
+                    focus:outline-none focus:ring-2 focus:ring-violet-500"
+                    ) }}
+                    {% for error in form.start_date.errors %}
+                        <span class="text-red-400 text-xs">{{ error }}</span>
+                    {% endfor %}
+                </div>
+
+                <div class="flex flex-col gap-1">
+                    {{ form.end_date.label(class="text-sm text-gray-400") }}
+                    {{ form.end_date(
+                    class="px-4 py-2 bg-transparent border border-gray-600 rounded-lg
+                    focus:outline-none focus:ring-2 focus:ring-violet-500"
+                    ) }}
+                    {% for error in form.end_date.errors %}
+                        <span class="text-red-400 text-xs">{{ error }}</span>
+                    {% endfor %}
+                </div>
+            </div>
+
+            <!-- Submit -->
+            {{ form.submit(
+            class="w-full bg-violet-600 py-2 rounded-lg
+            hover:bg-violet-700 transition font-semibold mt-4"
+            ) }}
+
+            <!-- Flash Messages -->
+            {% for message in get_flashed_messages() %}
+                <p  id="task-success" data-success="true"    class="     text-green-400 text-sm text-center mt-2">
+                    {{ message }}
+                </p>
+            {% endfor %}
+        </form>
+    </div>
+</div>
+
+{% endblock %}

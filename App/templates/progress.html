@@ -1,0 +1,111 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="min-h-screen bg-black flex flex-col items-center py-10 px-4">
+
+
+    <!-- Header -->
+    <div class=" w-full max-w-6xl flex items-center justify-between mb-6">
+        <h1 class="text-white text-2xl font-semibold">Tasks</h1>
+
+        <!-- Flash Messages -->
+        {% for message in get_flashed_messages() %}
+        <p class="text-green-400 text-sm text-center mt-2" data-success="true" id="task-success">
+            {{ message }}
+        </p>
+        {% endfor %}
+
+        <a class="flex items-center gap-2 px-4 py-2 rounded-md
+                bg-white/10 text-white text-sm
+                hover:bg-white/20 transition"
+           href="/">
+            ← Dashboard
+        </a>
+    </div>
+
+
+    <div class="w-full max-w-6xl overflow-x-auto bg-[#0C0712] rounded-xl p-4 shadow-lg">
+        <table class="w-full text-left text-sm text-gray-300">
+
+            <!-- Table Head -->
+            <thead class="bg-[#1A1025] uppercase text-xs">
+            <tr>
+                <th class="px-4 py-3">Task Name</th>
+                <th class="px-4 py-3">Date Range</th>
+                <th class="px-4 py-3">Progress</th>
+                <th class="px-4 py-3">Status</th>
+            </tr>
+            </thead>
+
+            <!-- Table Body -->
+            <tbody>
+            {% for task in tasks %}
+            {% set progress = task.progress_percentage() %}
+            {% set days_left = task.remaining_days() %}
+
+            <tr class="border-t border-gray-800 hover:bg-[#1A1025] transition">
+                <!-- Task Name -->
+                <td class="px-4 py-3 font-medium text-white">
+                    {{ task.task_name }}
+                </td>
+
+                <!-- Date Range -->
+                <td class="px-4 py-3 text-xs text-gray-400">
+                    {{ task.start_date.strftime('%d %b') }} →
+                    {{ task.end_date.strftime('%d %b %Y') }}
+                </td>
+
+                <!-- Progress -->
+                <td class="px-4 py-3">
+                    <div class="w-full bg-gray-700 rounded-full h-2 overflow-hidden">
+                        <div
+                                class=" h-2 rounded-full transition-all duration-700 ease-out bg-green-500 "  style="width: {{ progress }}%;">
+                        </div>
+                    </div>
+
+                    <div class="flex justify-between text-xs mt-1">
+                        <span class="text-gray-400">{{ progress }}%</span>
+
+                        {% if task.status == 'completed' %}
+                        <span class="text-green-400">✔ Completed</span>
+                        {% elif days_left == 0 %}
+                        <span class="text-red-400">⏰ Due today</span>
+                        {% elif days_left >= 1 %}
+                        <span class="text-yellow-400">⏳ {{ days_left }}d left</span>
+                        {% else %}
+                        <span class="text-gray-400">{{ days_left }}d left</span>
+                        {% endif %}
+                    </div>
+                </td>
+
+                <!-- Status Badge -->
+                <td class="px-4 py-3">
+                    <span class="px-2 py-1 rounded-full text-xs
+                        {% if task.status == 'completed' %}
+                            bg-green-500/20 text-green-400
+                        {% elif task.status == 'in_progress' %}
+                            bg-blue-500/20 text-blue-400
+                        {% elif task.status == 'overdue' %}
+                            bg-red-500/20 text-red-400
+                        {% else %}
+                            bg-yellow-500/20 text-yellow-400
+                        {% endif %}">
+                        {{ task.status.replace('_',' ') }}
+                    </span>
+                </td>
+            </tr>
+            {% else %}
+            <tr>
+                <td class="text-center text-gray-500 py-6" colspan="4">
+                    No tasks found. <a class="text-pink-500 underline" href="{{ url_for('new_task') }}">Add a new
+                    task</a>
+                </td>
+            </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+{% endblock %}

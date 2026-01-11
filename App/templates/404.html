@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="min-h-screen flex flex-col items-center justify-center bg-black text-center px-6">
+
+    <!-- Error Code -->
+    <h1 class="text-8xl font-extrabold text-violet-500 tracking-widest">
+        404
+    </h1>
+
+    <!-- Message -->
+    <p class="mt-4 text-xl text-gray-300">
+        Oops! The page you’re looking for doesn’t exist.
+    </p>
+
+    <p class="mt-2 text-sm text-gray-500">
+        It may have been moved, deleted, or never existed.
+    </p>
+
+    <!-- Actions -->
+    <div class="mt-8 flex gap-4">
+        <a href="{{ url_for('home') }}"
+           class="px-6 py-3 rounded-lg bg-violet-600 text-white font-medium
+                  hover:bg-violet-700 transition">
+            Go to Dashboard
+        </a>
+
+        <a href="{{ url_for('new_task') }}"
+           class="px-6 py-3 rounded-lg border border-gray-600 text-gray-300
+                  hover:border-violet-500 hover:text-violet-400 transition">
+            Add New Task
+        </a>
+    </div>
+
+</div>
+{% endblock %}

@@ -1,0 +1,162 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="min-h-screen bg-black flex justify-center">
+    <div class="w-full max-w-6xl px-4 py-10">
+
+        <!-- Header -->
+        <div class="flex items-center justify-between mb-6">
+            <h1 class="text-white text-2xl font-semibold">Tasks</h1>
+
+            <!-- Flash Messages -->
+            {% for message in get_flashed_messages() %}
+            <p class="text-green-400 text-sm text-center mt-2" data-success="true" id="task-success">
+                {{ message }}
+            </p>
+            {% endfor %}
+
+            <a class="flex items-center gap-2 px-4 py-2 rounded-md
+                bg-white/10 text-white text-sm
+                hover:bg-white/20 transition"
+               href="/">
+                ← Dashboard
+            </a>
+        </div>
+
+        <!-- Table Card -->
+        <div class="bg-[#0C0712] rounded-xl shadow overflow-hidden">
+
+            <table class="w-full text-sm text-gray-300">
+
+                <!-- Head -->
+                <thead class="bg-[#1A1025] uppercase text-xs tracking-wider">
+                <tr>
+                    <th class="px-4 py-3">ID</th>
+                    <th class="px-4 py-3">Task</th>
+                    <th class="px-4 py-3">Description</th>
+                    <th class="px-4 py-3">Duration</th>
+                    <th class="px-4 py-3">Status</th>
+                    <th class="px-4 py-3 text-right">Actions</th>
+                </tr>
+                </thead>
+
+                <!-- Body -->
+                <tbody>
+
+                {% for task in tasks %}
+                <tr class="border-t border-gray-800 hover:bg-[#1A1025] transition">
+
+                    <td class="px-4 py-3 text-xs text-gray-400">
+                        {{ task.task_id }}
+                    </td>
+
+                    <td class="px-4 py-3 font-medium text-white">
+                        {{ task.task_name }}
+                    </td>
+
+                    <td class="px-4 py-3 max-w-xs truncate">
+                        {{ task.task_description }}
+                    </td>
+
+                    <td class="px-4 py-3 text-xs">
+                        {{ task.start_date.strftime('%d %b') }}
+                        →
+                        {{ task.end_date.strftime('%d %b %Y') }}
+                    </td>
+
+                    <td class="px-4 py-3">
+              <span class="px-2 py-1 rounded-full text-xs
+                {% if task.status == 'completed' %}
+                  bg-green-500/20 text-green-400
+                {% elif task.status == 'in_progress' %}
+                  bg-blue-500/20 text-blue-400
+                {% else %}
+                  bg-yellow-500/20 text-yellow-400
+                {% endif %}
+              ">
+                {{ task.status.replace('_',' ') }}
+              </span>
+                    </td>
+
+                    <!-- Actions -->
+                    <td class="px-4 py-3 text-right">
+                        <div class="flex justify-end gap-2">
+
+                            <a class="px-3 py-1 text-xs rounded-md
+                          bg-blue-600/20 text-blue-400
+                          hover:bg-blue-600/30 transition"
+                               href="{{ url_for('edit_task', task_id=task.task_id) }}">
+                                Edit
+                            </a>
+
+                            <form action="{{ url_for('delete_task', task_id=task.task_id) }}"
+                                  method="post"
+                                  onsubmit="return confirm('Delete this task?')">
+                                {{ delete_form.hidden_tag() }}
+
+                                <button
+                                        class="px-3 py-1 text-xs rounded-md
+                           bg-red-600/20 text-red-400
+                           hover:bg-red-600/30 transition">
+                                    Delete
+                                </button>
+
+                            </form>
+
+                        </div>
+                    </td>
+
+                </tr>
+
+                <!--  else -->
+                {% else %}
+                <tr>
+                    <td class="px-6 py-20" colspan="6">
+                        <div class="flex flex-col items-center justify-center text-center">
+
+                            <!-- Illustration -->
+                            <div class="w-24 h-24 mb-6 rounded-full
+                  bg-violet-600/10
+                  flex items-center justify-center">
+                                <svg class="w-12 h-12 text-violet-400"
+                                     fill="none"
+                                     stroke="currentColor"
+                                     viewBox="0 0 24 24"
+                                     xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M9 5H7a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-2M9 5l6 6M9 5v6h6"
+                                          stroke-linecap="round"
+                                          stroke-linejoin="round"
+                                          stroke-width="1.5"/>
+                                </svg>
+                            </div>
+
+                            <!-- Text -->
+                            <h3 class="text-lg font-semibold text-white">
+                                No tasks yet
+                            </h3>
+                            <p class="text-sm text-gray-400 mt-2 max-w-sm">
+                                You haven’t added any tasks.
+                                Start by creating one to track progress and stay organized.
+                            </p>
+
+                            <!-- CTA -->
+                            <a class="mt-6 inline-flex items-center gap-2
+                px-5 py-2 rounded-lg
+                bg-violet-600 text-white
+                hover:bg-violet-700
+                transition"
+                               href="{{ url_for('new_task') }}">
+                                ➕ Add your first task
+                            </a>
+
+                        </div>
+                    </td>
+                </tr>
+                {% endfor %}
+                </tbody>
+
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}
