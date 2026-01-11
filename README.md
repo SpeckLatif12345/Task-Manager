@@ -32,7 +32,7 @@ Clean and simple design
 Navigation menu
 Icons for easy understanding
 
-❗ Notes for beginners
+❗ Notes for beginners , 
 You don’t need to know everything
 Read one file at a time
 Start with app.py
