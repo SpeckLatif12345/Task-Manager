@@ -21,9 +21,9 @@ python app.py
 
 * Pages in the app
 Page -> 	What it does : 
-Home -	Main page
-New Task - Add a task
-Progress -	See progress
+Home -	Main page ,
+New Task - Add a task ,
+Progress -	See progress ,
 
 
 
