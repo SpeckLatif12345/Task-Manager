@@ -11,8 +11,7 @@ Editor: VS Code
 git clone https://github.com/your-username/task-manager.git
 cd task-manager
 
- *Install Flask
-pip install flask
+ *Install requirements
 
  *Run the app
 python app.py
